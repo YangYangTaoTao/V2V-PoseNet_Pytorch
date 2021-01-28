@@ -20,13 +20,16 @@ cd V2V-Pose
 
 - Download [ITOP dataset](https://zenodo.org/record/3932973#.YBJky-gzaUl) and extract to directory ./datasets/depthmap(h5 files, including depth image and labels).
 ```
-for training and testing
+for training and testing：
 python main.py
-visual result
+
+visual result：
 python show_acc.py
-demo on ITOP test image
+
+demo on ITOP test image：
 python demo.py --is_h5 fid = id_number(eg:55)
-demo on custom image
+
+demo on custom image：
 python demo.py --fx=190.41 --fy=190.41
 ```
 ## Additional [IntegralPose](https://arxiv.org/abs/1711.08229)/[PoseFix](https://arxiv.org/abs/1812.03595) style loss implementation
