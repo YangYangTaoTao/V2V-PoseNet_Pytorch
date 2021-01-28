@@ -1,67 +1,34 @@
 # V2V-PoseNet-pytorch
-This is a pytorch implementation of V2V-PoseNet([V2V-PoseNet: Voxel-to-Voxel Prediction Network for Accurate 3D Hand and Human Pose Estimation from a Single Depth Map](https://arxiv.org/abs/1711.07399)), which is largely based on the author's [torch7 implementation](https://github.com/mks0601/V2V-PoseNet_RELEASE).
+This is a pytorch implementation of V2V-PoseNet([V2V-PoseNet: Voxel-to-Voxel Prediction Network for Accurate 3D Hand and Human Pose Estimation from a Single Depth Map](https://arxiv.org/abs/1711.07399)), which is largely based on the author's [torch7 implementation](https://github.com/mks0601/V2V-PoseNet_RELEASE) and [pytorch implementation](https://github.com/dragonbook/V2V-PoseNet-pytorch).
 
-This repository provides
-* V2V-PoseNet core modules(model, voxelization, ..)
-* An experiment demo on MSRA hand pose dataset, result in ~11mm mean error.
-* *Additional [Integral Pose Loss](https://arxiv.org/abs/1711.08229) (or [PoseFix Loss](https://arxiv.org/abs/1812.03595)) implementation*, result in ~10mm mean error on the same demo.
+This repository adds
+* An experiment demo on ITOP human pose dataset, result in ~6.5cm mean error
 
 ## Requirements
 * pytorch 0.4.1 or pytorch 1.0
 * python 3.6
 * numpy
-
-### **Warning on pytorch0.4.1 cudnn**:
-May need to **disable cudnn for batchnorm**, or just only use cuda instead. With cudnn for batchnorm and in float precision, the model cannot train well. My simple experiments show that:
-
-```
-cudnn+float: NOT work(e.g. the loss decreases much slower, and result in a higher loss) 
-cudnn+float+(disable batchnorm's cudnn): work(e.g. the loss decreases faster, and result in a lower loss)
-cudnn+double: work, but the speed is slow
-cuda+(float/double): work, but uses much more memroy
-```
-
-There is a similar issue pointed out by https://github.com/Microsoft/human-pose-estimation.pytorch. As suggested, disable cudnn for batchnorm:
-
-```
-PYTORCH=/path/to/pytorch
-for pytorch v0.4.0
-sed -i "1194s/torch\.backends\.cudnn\.enabled/False/g" ${PYTORCH}/torch/nn/functional.py
-for pytorch v0.4.1
-sed -i "1254s/torch\.backends\.cudnn\.enabled/False/g" ${PYTORCH}/torch/nn/functional.py
-```
+* h5py
 
 ## MSRA hand dataset demo
 ### Usage
 - Clone this repo:
 ```
-git clone https://github.com/dragonbook/V2V-PoseNet-pytorch.git
-cd V2V-PoseNet-pytorch
+git clone https://github.com/YangYangTaoTao/V2V-Pose.git
+cd V2V-Pose
 ```
 
-- Download [MSRA hand dataset](https://jimmysuen.github.io/) and extract to directory path/to/msra-hand.
-
-- Download [estimated centers](https://cv.snu.ac.kr/research/V2V-PoseNet/MSRA/center/center.tar.gz) of MSRA hand dataset which required by V2V-PoseNet and provided by the [author's implementation](https://github.com/mks0601/V2V-PoseNet_RELEASE). Extract them to the directory path/to/msra-hand-center. 
-```
-Note, this repository contains a copy of the msra hand centers under ./datasets/msra_center.
-```
-
-- Configure data_dir=path/to/msra-hand and center_dir=path/to/msra-hand-center in ./experiments/msra-subject3/main.py. And Run following command to perform training and testing. It will train the dataset for few epochs and evaluate on the test dataset. The test result will be saved as test_res.txt and the fit result on training data will be saved as fit_res.txt
-```
-PYTHONPATH=./ python ./experiments/msra-subject3/main.py
-```
-
-- Configure data_dir=path/to/msra-hand and center_dir=path/to/msra-hand-center in ./experiments/msra-subject3/gen_gt.py. Run it to generate ground truth labels as train_s3_gt.txt and test_s3_gt.txt
-
-- Configure pred_file=path/to/test_s3_gt.txt and gt_file=path/to/test_res.txt in ./experiments/msra-subject3/show_acc.py. Run it to plot accuracy and error.
-
-- The following figures show that the simple experiment can result in about 11mm mean error.
-
-![msra_s3_acc](/figs/msra_s3_joint_acc.png)
-
-![msra_s3_mean_error](/figs/msra_s3_joint_mean_error.png)
-
-
+- Download [ITOP dataset](https://zenodo.org/record/3932973#.YBJky-gzaUl) and extract to directory ./datasets/depthmap(h5 files, including depth image and labels).
+'''
+for training and testing
+python main.py
+visual result
+python show_acc.py
+demo on ITOP test image
+python demo.py --is_h5 fid = id_number(eg:55)
+demo on custom image
+python demo.py --fx=190.41 --fy=190.41
+'''
 ## Additional [IntegralPose](https://arxiv.org/abs/1711.08229)/[PoseFix](https://arxiv.org/abs/1812.03595) style loss implementation
 Replaced V2V-PoseNet's loss with PoseFix's loss(one-hot heatmap loss + L1 coord loss), and it's independently implemented under ./integral-pose directory. Also, configure data_dir and center_dir in ./integral-pose/main.py, and start training. The result shows about 10mm mean error.
 
