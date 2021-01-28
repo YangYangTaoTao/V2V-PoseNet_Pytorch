@@ -47,12 +47,14 @@ def get_parse():
     parser.add_argument("--is_h5", action='store_true', default=False, help="flag use")
     parser.add_argument("--fx", default=285.71, type=float, help="camera internal parameter fx")
     parser.add_argument("--fy", default=285.71, type=float, help="camera internal parameter fy")
+    parser.add_argument("--custom_data", default="custom_image_data/mytest.npy", type=str, help="custom data select")
     args = parser.parse_args()
     fileID = args.fid
     is_h5 = args.is_h5
     fx = args.fx
     fy = args.fy
-    return fileID, is_h5, fx ,fy
+    cus_data = args.custom_data
+    return fileID, is_h5, fx ,fy, cus_data
 
 def config_cuda(device):
     if device == torch.device('cuda'):
@@ -100,14 +102,14 @@ def plot_3Dresult(depthmap, keypoints, fx, fy):
 
 
 if __name__ == "__main__":
-    fileID, is_h5, fx, fy = get_parse()
+    fileID, is_h5, fx, fy, cus_data = get_parse()
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     if is_h5:
         depthmap_path = "datasets/depthmap/ITOP_side_test_depth_map.h5"
         depthmaps = (h5py.File(depthmap_path))['data']
         realpoints = get_realworld_points(depthmaps, fx, fy, is_h5, fileID)
     else:
-        depthmaps = np.load('mytest4.npy') / 1000
+        depthmaps = np.load(cus_data) / 1000
         depthmaps = cv2.resize(depthmaps, (320, 240), interpolation=cv2.INTER_AREA)
         realpoints = get_realworld_points(depthmaps, fx, fy, is_h5, fileID)
 
