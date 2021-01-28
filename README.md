@@ -1,4 +1,4 @@
-# V2V-PoseNet-pytorch
+# V2V-PoseNet_pytorch
 This is a pytorch implementation of V2V-PoseNet([V2V-PoseNet: Voxel-to-Voxel Prediction Network for Accurate 3D Hand and Human Pose Estimation from a Single Depth Map](https://arxiv.org/abs/1711.07399)), which is largely based on the author's [torch7 implementation](https://github.com/mks0601/V2V-PoseNet_RELEASE) and [pytorch implementation](https://github.com/dragonbook/V2V-PoseNet-pytorch).
 
 This repository adds
