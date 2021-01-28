@@ -19,7 +19,7 @@ cd V2V-Pose
 ```
 
 - Download [ITOP dataset](https://zenodo.org/record/3932973#.YBJky-gzaUl) and extract to directory ./datasets/depthmap(h5 files, including depth image and labels).
-'''
+```
 for training and testing
 python main.py
 visual result
@@ -28,7 +28,7 @@ demo on ITOP test image
 python demo.py --is_h5 fid = id_number(eg:55)
 demo on custom image
 python demo.py --fx=190.41 --fy=190.41
-'''
+```
 ## Additional [IntegralPose](https://arxiv.org/abs/1711.08229)/[PoseFix](https://arxiv.org/abs/1812.03595) style loss implementation
 Replaced V2V-PoseNet's loss with PoseFix's loss(one-hot heatmap loss + L1 coord loss), and it's independently implemented under ./integral-pose directory. Also, configure data_dir and center_dir in ./integral-pose/main.py, and start training. The result shows about 10mm mean error.
 
