@@ -15,7 +15,7 @@ This repository adds
 - Clone this repo:
 ```
 git clone https://github.com/YangYangTaoTao/V2V-Pose.git
-cd V2V-Pose
+cd V2V-PoseNet_Pytorch
 ```
 
 - Download [ITOP dataset](https://zenodo.org/record/3932973#.YBJky-gzaUl) and extract to directory ./datasets/depthmap(h5 files, including depth image and labels).
