@@ -33,7 +33,11 @@ demo on custom image：
 python demo.py --fx=190.41 --fy=190.41
 ```
 -3D result visualization, refer to [official implementation](https://github.com/mks0601/V2V-PoseNet_RELEASE) for more details. Here are some results:
-![3D vis1](/figs/)
+
+![3D vis1](/figs/result/86.jpg)
+
+![3D vis2](/figs/result/87.jpg)
+
 ## Additional [IntegralPose](https://arxiv.org/abs/1711.08229)/[PoseFix](https://arxiv.org/abs/1812.03595) style loss implementation
 Replaced V2V-PoseNet's loss with PoseFix's loss(one-hot heatmap loss + L1 coord loss), and it's independently implemented under ./integral-pose directory. Also, configure data_dir and center_dir in ./integral-pose/main.py, and start training. The result shows about 10mm mean error.
 
